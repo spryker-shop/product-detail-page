@@ -5,17 +5,17 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerShop\Yves\ProductDetailPage\Dependency\Plugin\ProductCategoryWidget;
+namespace SprykerShop\Yves\ProductDetailPage\Dependency\Plugin\PriceWidget;
 
 use Generated\Shared\Transfer\ProductViewTransfer;
 use Spryker\Yves\Kernel\Dependency\Plugin\WidgetPluginInterface;
 
-interface ProductCategoryWidgetPluginInterface extends WidgetPluginInterface
+interface PriceWidgetPluginInterface extends WidgetPluginInterface
 {
-    const NAME = 'ProductCategoryWidgetPlugin';
+    public const NAME = 'PriceWidgetPlugin';
 
     /**
-     * @param \Generated\Shared\Transfer\ProductViewTransfer $productViewTransfer
+     * @param ProductViewTransfer $productViewTransfer
      *
      * @return void
      */
