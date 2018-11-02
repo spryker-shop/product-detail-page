@@ -69,8 +69,8 @@
     {% endwidget %}
 
     {% block product_group_widget %}
-        {% widget 'ProductGroupWidget' args [data.product.idProductAbstract] only %}
-        {% elsewidget 'ProductGroupWidgetPlugin' args [data.product.idProductAbstract] only %} {# @deprecated Use ProductGroupWidget instead. #}
+        {% widget 'ProductGroupWidget' args [data.product] only %}
+        {% elsewidget 'ProductGroupWidgetPlugin' args [data.product] only %} {# @deprecated Use ProductGroupWidget instead. #}
         {% endwidget %}
     {% endblock %}
 
