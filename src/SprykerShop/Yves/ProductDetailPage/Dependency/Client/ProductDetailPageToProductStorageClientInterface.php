@@ -7,6 +7,8 @@
 
 namespace SprykerShop\Yves\ProductDetailPage\Dependency\Client;
 
+use Generated\Shared\Transfer\CustomerTransfer;
+
 interface ProductDetailPageToProductStorageClientInterface
 {
     /**
@@ -16,7 +18,7 @@ interface ProductDetailPageToProductStorageClientInterface
      *
      * @return \Generated\Shared\Transfer\ProductViewTransfer
      */
-    public function mapProductStorageData(array $data, $localeName, array $selectedAttributes = []);
+    public function mapProductStorageData(array $data, $localeName, array $selectedAttributes = [], ?CustomerTransfer $customerTransfer, string $priceMode);
 
     /**
      * @param int $idProductAbstract

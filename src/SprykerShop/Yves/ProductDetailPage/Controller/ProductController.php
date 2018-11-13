@@ -8,6 +8,8 @@
 namespace SprykerShop\Yves\ProductDetailPage\Controller;
 
 use Generated\Shared\Transfer\ProductViewTransfer;
+use Spryker\Client\Customer\CustomerClient;
+use Spryker\Client\Price\PriceClient;
 use Spryker\Shared\Storage\StorageConstants;
 use SprykerShop\Yves\ProductDetailPage\Exception\ProductAccessDeniedException;
 use SprykerShop\Yves\ShopApplication\Controller\AbstractController;
@@ -52,9 +54,12 @@ class ProductController extends AbstractController
      */
     protected function executeDetailAction(array $productData, Request $request): array
     {
+        $customer = (new CustomerClient())->getCustomer();
+        $priceMode = (new PriceClient())->getCurrentPriceMode();
+
         $productViewTransfer = $this->getFactory()
             ->getProductStorageClient()
-            ->mapProductStorageData($productData, $this->getLocale(), $this->getSelectedAttributes($request));
+            ->mapProductStorageData($productData, $this->getLocale(), $this->getSelectedAttributes($request), $customer, $priceMode);
 
         $this->assertProductRestrictions($productViewTransfer);
 
