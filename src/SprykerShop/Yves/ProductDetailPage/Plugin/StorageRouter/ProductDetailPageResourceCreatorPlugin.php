@@ -5,16 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerShop\Yves\ProductDetailPage\Plugin;
+namespace SprykerShop\Yves\ProductDetailPage\Plugin\StorageRouter;
 
 use Spryker\Shared\ProductStorage\ProductStorageConstants;
 use Spryker\Yves\Kernel\AbstractPlugin;
 use SprykerShop\Yves\ProductDetailPage\Controller\ProductController;
-use SprykerShop\Yves\ShopRouterExtension\Dependency\Plugin\ResourceCreatorPluginInterface;
+use SprykerShop\Yves\StorageRouterExtension\Dependency\Plugin\ResourceCreatorPluginInterface;
 
 /**
- * @deprecated Use `\SprykerShop\Yves\ProductDetailPage\Plugin\StorageRouter\ProductDetailPageResourceCreatorPlugin` instead.
- *
  * @method \SprykerShop\Yves\ProductDetailPage\ProductDetailPageFactory getFactory()
  */
 class ProductDetailPageResourceCreatorPlugin extends AbstractPlugin implements ResourceCreatorPluginInterface
@@ -22,7 +20,7 @@ class ProductDetailPageResourceCreatorPlugin extends AbstractPlugin implements R
     /**
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return ProductStorageConstants::PRODUCT_ABSTRACT_RESOURCE_NAME;
     }
@@ -30,7 +28,7 @@ class ProductDetailPageResourceCreatorPlugin extends AbstractPlugin implements R
     /**
      * @return string
      */
-    public function getModuleName()
+    public function getModuleName(): string
     {
         return 'ProductDetailPage';
     }
@@ -38,7 +36,7 @@ class ProductDetailPageResourceCreatorPlugin extends AbstractPlugin implements R
     /**
      * @return string
      */
-    public function getControllerName()
+    public function getControllerName(): string
     {
         return 'Product';
     }
@@ -46,7 +44,7 @@ class ProductDetailPageResourceCreatorPlugin extends AbstractPlugin implements R
     /**
      * @return string
      */
-    public function getActionName()
+    public function getActionName(): string
     {
         return 'detail';
     }
@@ -56,7 +54,7 @@ class ProductDetailPageResourceCreatorPlugin extends AbstractPlugin implements R
      *
      * @return array
      */
-    public function mergeResourceData(array $data)
+    public function mergeResourceData(array $data): array
     {
         return [
             ProductController::ATTRIBUTE_PRODUCT_DATA => $data,
