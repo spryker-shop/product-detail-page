@@ -51,14 +51,15 @@
     <hr>
 
     {% set sspServiceDetectorWidget = findWidget('SspServiceDetectorWidget', [data.product]) %}
+    {% set isServiceProduct = sspServiceDetectorWidget and sspServiceDetectorWidget.isService %}
 
-    {% if (sspServiceDetectorWidget and sspServiceDetectorWidget.isService) %}
+    {% if isServiceProduct %}
         {% widget 'SspProductOfferPriceWidget' args [data.product] only %}{% endwidget %}
     {% else %}
         {% widget 'CurrentProductPriceVolumeWidget' args [data.product.currentProductPrice] only %}
         {% elsewidget 'ProductPriceVolumeWidget' args [data.product] only %} {# @deprecated Use CurrentProductPriceVolumeWidget instead. #}
         {% elsewidget 'PriceProductVolumeWidgetPlugin' args [data.product] only %} {# @deprecated Use CurrentProductPriceVolumeWidget instead. #}
-        {% nowidget %}spy_product_discontinued_storage
+        {% nowidget %}
             {% if widgetExists('PriceWidgetPlugin') %}
                 {{ widget('PriceWidgetPlugin', data.product) }}  {# @deprecated Use molecule('money-price') instead. #}
             {% else %}
@@ -116,7 +117,11 @@
 
     <hr>
 
-    {% widget 'AddToCartFormWidget' args [config, data.product, isDisabled, options] only %}
+    {% widget 'AddToCartFormWidget' args [config, data.product, isDisabled, options] with {
+        data: {
+          isServiceProduct: isServiceProduct,
+        },
+    } only %}
         {% block embeddedData %}
 
             {% widget 'ProductOptionConfiguratorWidget' args [data.product] only %}
@@ -171,7 +176,6 @@
                 {% set shipmentTypeServicePointSelectorWidget = findWidget('ShipmentTypeServicePointSelectorWidget', [data.product, data.isDisabled]) %}
             {% endif %}
 
-
             {% if shipmentTypeServicePointSelectorWidget %}
                 {% widget shipmentTypeServicePointSelectorWidget only %}{% endwidget %}
             {% endif %}
@@ -179,7 +183,7 @@
             {% widget 'CartAddProductAsSeparateItemWidget' only %}{% endwidget %}
 
             {% block productOfferByMerchant %}
-                {% if not shipmentTypeServicePointSelectorWidget or  not shipmentTypeServicePointSelectorWidget.hasShipmentTypeWithRequiredLocation %}
+                {% if not data.isServiceProduct %}
                     {% set merchantProductOfferWidget = findWidget('MerchantProductOfferWidget', [data.product]) %}
                     {% set productOffersCount = merchantProductOfferWidget ? merchantProductOfferWidget.productOffers | length : 0 %}
                     {% set isRadioButtonVisible = productOffersCount > 0  %}
