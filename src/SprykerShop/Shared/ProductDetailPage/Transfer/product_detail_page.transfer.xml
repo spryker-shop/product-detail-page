@@ -10,11 +10,13 @@
         <property name="sku" type="string"/>
         <property name="abstractSku" type="string"/>
         <property name="price" type="int"/>
-        <property name="available" type="bool"/>
         <property name="currentProductPrice" type="CurrentProductPrice"/>
         <property name="prices" type="array" singular="prices"/>
         <property name="attributeMap" type="AttributeMapStorage"/>
         <property name="availableAttributes" type="array" singular="availableAttribute"/>
+        <property name="available" type="bool"/>
+        <property name="stockQuantity" type="float" strict="true"/>
+        <property name="isNeverOutOfStock" type="bool" strict="true"/>
     </transfer>
 
     <transfer name="ShopContext">
