@@ -2,27 +2,52 @@
 
 {% define config = {
     name: 'product-detail',
-    tag: 'section'
+    tag: 'section',
 } %}
 
 {% define data = {
     description: '',
-    attributes: []
+    attributes: [],
+    attachments: [],
 } %}
 
 {% block body %}
-    <h2 class="title--h5">{{ 'product.attribute.long_description' | trans }}</h2>
-    <p itemprop="description">{{ data.description }}</p>
+    {% block heading %}
+        <h2 class="title--h5">{{ 'product.attribute.long_description' | trans }}</h2>
+        <p itemprop="description">{{ data.description }}</p>
+    {% endblock %}
 
-    <h2 class="title--h5">{{ 'page.product.details' | trans }}</h2>
-    <div class="grid">
-        {% for name, value in data.attributes %}
-            {% if name %}
-                <p class="col col--sm-12 col--md-6 col--lg-4 col--xl-3" itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
-                    <strong itemprop="name">{{ ('product.attribute.' ~ name) | trans }}</strong><br>
-                    <span itemprop="value">{{ value | join(', ') }}</span>
-                </p>
-            {% endif %}
-        {% endfor %}
-    </div>
+    {% set attachmentsTitleClass = 'title--h5' %}
+    {% set attachmentsListClass = 'list spacing-y' %}
+    {% set attachmentsListItemClass = 'list__item' %}
+    {% set attachmentsListItemLinkClass = 'link' %}
+
+    {% block attachments %}
+        {% if data.attachments is not empty %}
+            <h2 class="{{ attachmentsTitleClass is defined ? attachmentsTitleClass : '' }}">{{ 'product.attachments.downloads' | trans }}</h2>
+            <ul class="{{ attachmentsListClass is defined ? attachmentsListClass : '' }}">
+                {% for attachment in data.attachments %}
+                    <li class="{{ attachmentsListItemClass is defined ? attachmentsListItemClass : '' }}">
+                        <a href="{{ attachment.url }}" target="_blank" rel="noopener noreferrer" class="{{ attachmentsListItemLinkClass is defined ? attachmentsListItemLinkClass : '' }}">
+                            {{ attachment.label }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endblock %}
+
+    {% block details %}
+        <h2 class="title--h5">{{ 'page.product.details' | trans }}</h2>
+        <div class="grid">
+            {% for name, value in data.attributes %}
+                {% if name %}
+                    <p class="col col--sm-12 col--md-6 col--lg-4 col--xl-3" itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
+                        <strong itemprop="name">{{ ('product.attribute.' ~ name) | trans }}</strong><br>
+                        <span itemprop="value">{{ value | join(', ') }}</span>
+                    </p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endblock %}
 {% endblock %}

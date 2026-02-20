@@ -89,6 +89,7 @@
             data: {
                 description: data.product.description,
                 attributes: data.product.attributes,
+                attachments: data.product.attachments | default([]),
             }
         } only %}
 
