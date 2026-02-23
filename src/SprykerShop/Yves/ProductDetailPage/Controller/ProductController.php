@@ -192,6 +192,10 @@ class ProductController extends AbstractController
         /** @var array<mixed> $selectedAttributes */
         $selectedAttributes = $request->query->all()[static::PARAM_ATTRIBUTE] ?? [];
 
+        if (!is_array($selectedAttributes)) {
+            return [];
+        }
+
         return array_filter($selectedAttributes, function ($selectedAttributeValue) {
             return (bool)mb_strlen($selectedAttributeValue);
         });
