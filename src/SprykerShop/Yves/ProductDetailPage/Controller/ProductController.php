@@ -105,11 +105,6 @@ class ProductController extends AbstractController
         ];
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ProductViewTransfer $productViewTransfer
-     *
-     * @return void
-     */
     protected function assertProductRestrictions(ProductViewTransfer $productViewTransfer): void
     {
         $this->assertProductAbstractRestrictions($productViewTransfer);

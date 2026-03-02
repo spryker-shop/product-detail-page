@@ -23,9 +23,6 @@ class ProductDetailPageFactory extends AbstractFactory
         return $this->getProvidedDependency(ProductDetailPageDependencyProvider::PLUGIN_PRODUCT_DETAIL_PAGE_WIDGETS);
     }
 
-    /**
-     * @return \SprykerShop\Yves\ProductDetailPage\Dependency\Client\ProductDetailPageToProductStorageClientInterface
-     */
     public function getProductStorageClient(): ProductDetailPageToProductStorageClientInterface
     {
         return $this->getProvidedDependency(ProductDetailPageDependencyProvider::CLIENT_PRODUCT_STORAGE);
@@ -41,9 +38,6 @@ class ProductDetailPageFactory extends AbstractFactory
         return $this->getProvidedDependency(ProductDetailPageDependencyProvider::PLUGIN_APPLICATION);
     }
 
-    /**
-     * @return \SprykerShop\Yves\ProductDetailPage\Resolver\ShopContextResolverInterface
-     */
     public function createShopContextResolver(): ShopContextResolverInterface
     {
         return new ShopContextResolver($this->getContainer());

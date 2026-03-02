@@ -26,17 +26,7 @@ interface ProductDetailPageToProductStorageClientInterface
         ?ProductStorageCriteriaTransfer $productStorageCriteriaTransfer = null
     );
 
-    /**
-     * @param int $idProductAbstract
-     *
-     * @return bool
-     */
     public function isProductAbstractRestricted(int $idProductAbstract): bool;
 
-    /**
-     * @param int $idProductConcrete
-     *
-     * @return bool
-     */
     public function isProductConcreteRestricted(int $idProductConcrete): bool;
 }
