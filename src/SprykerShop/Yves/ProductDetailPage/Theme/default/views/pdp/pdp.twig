@@ -37,7 +37,7 @@
 {% block content %}
     <section itemscope itemtype="https://schema.org/Product">
         <meta itemprop="name" content="{{ data.product.name }}">
-        <meta itemprop="url" content="{{ data.hostName }}{{ data.productUrl }}">
+        <meta itemprop="url" content="{{ data.hostName }}{{ functionExists('generatePath') ? generatePath(data.productUrl) : data.productUrl }}">
         <meta itemprop="sku" content="{{ data.product.sku }}">
         <meta itemprop="abstractSku" content="{{ data.product.abstractSku }}">
 
