@@ -17,27 +17,49 @@ use SprykerShop\Yves\StorageRouterExtension\Dependency\Plugin\ResourceCreatorPlu
  */
 class ProductDetailPageResourceCreatorPlugin extends AbstractPlugin implements ResourceCreatorPluginInterface
 {
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     */
     public function getType(): string
     {
         return ProductStorageConstants::PRODUCT_ABSTRACT_RESOURCE_NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     */
     public function getModuleName(): string
     {
         return 'ProductDetailPage';
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     */
     public function getControllerName(): string
     {
         return 'Product';
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     */
     public function getActionName(): string
     {
         return 'detail';
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array<string, mixed> $data
      *
      * @return array<string, mixed>

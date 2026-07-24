@@ -20,6 +20,8 @@ use SprykerShop\Yves\ShopRouterExtension\Dependency\Plugin\ResourceCreatorPlugin
 class ProductDetailPageResourceCreatorPlugin extends AbstractPlugin implements ResourceCreatorPluginInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getType()
@@ -28,6 +30,8 @@ class ProductDetailPageResourceCreatorPlugin extends AbstractPlugin implements R
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getModuleName()
@@ -36,6 +40,8 @@ class ProductDetailPageResourceCreatorPlugin extends AbstractPlugin implements R
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getControllerName()
@@ -44,6 +50,8 @@ class ProductDetailPageResourceCreatorPlugin extends AbstractPlugin implements R
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @return string
      */
     public function getActionName()
@@ -52,6 +60,8 @@ class ProductDetailPageResourceCreatorPlugin extends AbstractPlugin implements R
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array<string, mixed> $data
      *
      * @return array
