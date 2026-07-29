@@ -19,9 +19,17 @@
 {% set isProductAbstract = data.product.idProductConcrete is empty %}
 {% set isDisabled = isProductAbstract or data.product.price is empty %}
 {% set isProductAvailable = true %}
+
+{% set sspServiceDetectorWidget = findWidget('SspServiceDetectorWidget', [data.product]) %}
+{% set isServiceProduct = sspServiceDetectorWidget and sspServiceDetectorWidget.isService %}
+
 {# BuyBoxWidget overrides data.product with productOfferReference, availability, currentProductPrice from preselected product offer or merchant product #}
-{% set buyBoxWidget = findWidget('BuyBoxWidget', [data.product, app.request]) %}
-{% set isBuyBoxEnabled =  buyBoxWidget is not empty %}
+{% set isBuyBoxEnabled =  false %}
+{% if not isServiceProduct %}
+    {% set buyBoxWidget = findWidget('BuyBoxWidget', [data.product, app.request]) %}
+    {% set isBuyBoxEnabled =  buyBoxWidget is not empty %}
+{% endif %}
+
 {% set productOffersCount = isBuyBoxEnabled ? buyBoxWidget.products | length : 0 %}
 {% set merchantProductOfferWidget = null %}
 {# For BC reasons if BuyBoxWidget is not enabled we fallback to MerchantProductOfferWidget #}
@@ -55,8 +63,7 @@
 
     <hr>
 
-    {% set sspServiceDetectorWidget = findWidget('SspServiceDetectorWidget', [data.product]) %}
-    {% set isServiceProduct = sspServiceDetectorWidget and sspServiceDetectorWidget.isService %}
+    
 
     {% if isServiceProduct %}
         {% widget 'SspProductOfferPriceWidget' args [data.product] only %}{% endwidget %}
@@ -144,7 +151,7 @@
                 showProductAvailability: showProductAvailability,
                 productOffersCount: productOffersCount,
                 isBuyBoxEnabled: isBuyBoxEnabled,
-                buyBoxWidget: buyBoxWidget,
+                buyBoxWidget: isBuyBoxEnabled ? buyBoxWidget : null,
                 merchantProductOfferWidget: merchantProductOfferWidget,
             },
         } only %}
