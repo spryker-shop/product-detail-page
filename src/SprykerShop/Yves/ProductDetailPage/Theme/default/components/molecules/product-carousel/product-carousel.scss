@@ -1,6 +1,12 @@
+@use 'sass:meta';
+
 @mixin product-detail-page-product-carousel($name: '.product-carousel') {
     #{$name} {
         position: relative;
+
+        @if meta.mixin-exists(product-detail-page-product-carousel-base-hook) {
+            @include product-detail-page-product-carousel-base-hook;
+        }
 
         @content;
     }
