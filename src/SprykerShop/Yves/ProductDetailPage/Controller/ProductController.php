@@ -241,6 +241,10 @@ class ProductController extends AbstractController
             }
         }
 
+        if ($maxContainedSuperAttributeValue === '') {
+            return $selectedAttributeValue;
+        }
+
         return $maxContainedSuperAttributeValue;
     }
 }
