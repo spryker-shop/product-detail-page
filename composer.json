@@ -10,7 +10,7 @@
         "spryker-shop/shop-ui": "^1.100.0 || ^2.0.0",
         "spryker-shop/storage-router-extension": "^1.0.0",
         "spryker/kernel": "^3.52.0",
-        "spryker/product-storage": "^1.19.0",
+        "spryker/product-storage": "^1.59.0",
         "spryker/storage": "^3.4.0",
         "spryker/symfony": "^3.1.0"
     },
@@ -33,7 +33,8 @@
         "spryker-shop/asset-widget": "If you want to use components from module AssetWidget",
         "spryker-shop/product-bundle-widget": "If you want to use components from module ProductBundle",
         "spryker-shop/product-comparison-widget": "If you want to use ComparisonProductTogglerComparisonListWidget widget from the ProductComparisonWidget module.",
-        "spryker-feature/product-experience-management": "If you want to use ProductAttributeVisibilityPdpWidget."
+        "spryker-feature/product-experience-management": "If you want to use ProductAttributeVisibilityPdpWidget.",
+        "spryker-shop/traceable-event-widget": "If you want the products to carry their tracking details (ProductTrackingDetailsWidget) for the traceable events."
     },
     "autoload": {
         "psr-4": {

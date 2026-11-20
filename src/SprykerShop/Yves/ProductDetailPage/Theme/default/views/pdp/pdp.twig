@@ -131,7 +131,39 @@
 
 {% block eventTracker %}
     {% set sku = data.product.idProductConcrete ? data.product.sku : (data.product.attributeMap is defined ? data.product.attributeMap.productConcreteIds | keys | first) | default(data.product.sku) %}
+    {# Event payload prices are integers in cents; the adapters convert to currency units. #}
+    {% set price = can('SeePricePermissionPlugin') ? data.product.price : null %}
 
+    {# The tracking data are built only while the storefront tracks user actions: the traceable event widget is registered and the visitor has not turned the tracking off. #}
+    {% set isUserActionTrackingEnabled = findWidget('TraceableEventWidget').parameters.isUserActionTrackingEnabled ?? false %}
+    {% set trackingVariant = [] %}
+    {% if isUserActionTrackingEnabled %}
+        {% set trackingVariant = data.product.selectedVariantAttributes | default([]) | reduce((values, value) => values | merge([value]), []) %}
+    {% endif %}
+
+    {# The concrete product shown: the selected variant, or the only one; with several variants and none selected, there is none, while `sku` above is just the first variant. #}
+    {% set trackingConcreteIds = data.product.attributeMap.productConcreteIds ?? [] %}
+    {% set trackingConcreteSku = '' %}
+    {% if data.product.idProductConcrete %}
+        {% set trackingConcreteSku = data.product.sku %}
+    {% elseif trackingConcreteIds | length == 1 %}
+        {% set trackingConcreteSku = trackingConcreteIds | keys | first %}
+    {% endif %}
+
+    {# The product as the traceable events report it, once for viewing it and once for adding it to the cart. #}
+    {% set trackingProduct = {
+        sku: sku,
+        abstractSku: data.product.abstractSku | default(null),
+        concreteSku: trackingConcreteSku,
+        name: data.product.name,
+        abstractName: data.product.abstractName | default(null),
+        price: price,
+        brand: data.product.brand | default(null),
+        variant: trackingVariant,
+        categories: [],
+    } %}
+
+    {# The add-to-cart trigger is the clicked button itself, not a focused one: Safari and Firefox on macOS do not focus a button on click. #}
     {% set events = {
         list: events.list | merge([
             {
@@ -157,28 +189,32 @@
                 name: 'click',
                 triggers: [
                     {
-                        selector: 'body:has(.js-packaging-unit-quantity-selector__add-to-cart-button:focus)',
+                        selector: '.js-packaging-unit-quantity-selector__add-to-cart-button',
                         groupAs: {
                             key: 'products',
                             toArray: true,
                         },
                         data: {
-                            quantity: [
-                                {
-                                    selector: 'select[name="quantity"]',
-                                    attribute: 'value',
+                            productDetailPage: {
+                                selector: 'body',
+                                closest: true,
+                                flatten: true,
+                                composed: {
+                                    quantity: [
+                                        {
+                                            selector: 'select[name="quantity"]',
+                                            attribute: 'value',
+                                        },
+                                        {
+                                            selector: '.js-formatted-number-input__hidden-input',
+                                            attribute: 'value',
+                                        },
+                                    ],
                                 },
-                                {
-                                    selector: '.js-formatted-number-input__hidden-input',
-                                    attribute: 'value',
-                                }
-                            ],
-                            price: {
-                                selector: '[itemprop="price"]',
-                                attribute: 'content',
                             },
-                            sku: {
-                                value: sku,
+                            trackingProduct: {
+                                value: trackingProduct,
+                                flatten: true,
                             },
                         },
                     },
@@ -187,10 +223,13 @@
         ]),
         data: events.data | merge({
             page: 'PDP',
-            products: [{ sku: sku }],
+            products: [trackingProduct],
             searchId: app.request.get('search-id'),
         }),
     } %}
+
+    {# The category path of the product; the traceable events add it to the product of both events. #}
+    {% widget 'ProductTrackingDetailsWidget' args [[data.product]] only %}{% endwidget %}
 
     {{ parent() }}
 {% endblock %}
